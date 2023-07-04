@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+		<title>지뢰찾기 게임</title>
+		<link href="favicon.ico" rel="icon">
+		<link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+		<link href="/style (5).css" rel="stylesheet">
+		<script src="/md2.js"></script>
+		<script src="/script (1).js"></script>
+	</head>
+	<body onload="startApp();">
+		<div class="wrap" id="wrap">
+<!--
+			<div class="menu">
+				<div id="gameName">
+					<p>Mindsweeper 2.1</p>
+				</div>
+				<div id="gameOut">
+					<button id="gameQuit" onclick="showGameOver();">&times;</button>
+				</div>
+			</div>
+-->
+			<div class="gameFrame">
+				<div id="option">
+					<p id="flagNum">🚩 89</p>
+				</div>
+				<div id="game"><!-- mindsweeper game to cells -->
+					
+					<div class="gt" id="gt">
+						<div class="gt-row">
+							<button class="gt-cell" id="c00"></button>
+							<button class="gt-cell" id="c01"></button>
+							<button class="gt-cell" id="c02"></button>
+							<button class="gt-cell" id="c03"></button>
+							<button class="gt-cell" id="c04"></button>
+						</div>
+						<div class="gt-row">
+							<button class="gt-cell" id="c10"></button>
+							<button class="gt-cell" id="c11"></button>
+							<button class="gt-cell" id="c12"></button>
+							<button class="gt-cell" id="c13"></button>
+							<button class="gt-cell" id="c14"></button>
+						</div>
+						<div class="gt-row">
+							<button class="gt-cell" id="c20"></button>
+							<button class="gt-cell" id="c21"></button>
+							<button class="gt-cell" id="c22"></button>
+							<button class="gt-cell" id="c23"></button>
+							<button class="gt-cell" id="c24"></button>
+						</div>
+						<div class="gt-row">
+							<button class="gt-cell" id="c30"></button>
+							<button class="gt-cell" id="c31"></button>
+							<button class="gt-cell" id="c32"></button>
+							<button class="gt-cell" id="c33"></button>
+							<button class="gt-cell" id="c34"></button>
+						</div>
+						<div class="gt-row">
+							<button class="gt-cell" id="c40"></button>
+							<button class="gt-cell" id="c41"></button>
+							<button class="gt-cell" id="c42"></button>
+							<button class="gt-cell" id="c43"></button>
+							<button class="gt-cell" id="c44"></button>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+		<div class="front" id="front">
+			<div class="front-wrap">
+				<!-- 난이도 선택 -->
+<!--				여기서 난이도를 선택하는데에 있어서 현재 사용자의 화면의 크기를 반영하면 좋음-->
+<!--				물론 사이즈 크기 선택도 크기에 반영하고 조절하면 좋다. 한번 해보자-->
+				<div class="select">
+					<h1>Welcome to Mindsweeper Game!</h1>
+					<div class="select-s">
+						<div class="select-c"><!--클릭하는 즉시 바로 게임 시작-->
+							<label>
+								<button class="select-lv" onclick="gameLevel(1);">Easy</button>
+								<button class="select-lv" onclick="gameLevel(2);">Middium</button>
+								<button class="select-lv" onclick="gameLevel(3);">Hard</button>
+								<button class="select-lv" onclick="gameLevel(4);">Max Ultra Hard</button>
+							</label>
+						</div>
+						<div class="select-c">
+							<label>Width: <input type="number" id="width" value="10" min="6" max="36" required></label>
+							<label>Height: <input type="number" id="height" value="10" min="6" max="16" required></label>
+							<label>Number: <input type="number" id="number" value="1" min="1" required></label>
+							<label>
+								<button class="select-mn" onclick="setNumMin();">Min Num</button>
+								<button class="select-mn" onclick="setNumMax();">Max Num</button>
+							</label>
+							<button class="select-st" onclick="clickStartBtn();">Start!</button>
+						</div>
+					</div>
+				</div>
+				<!-- 꿀팁: 하는 방법 알려주는거 -->
+				<div class="tip">
+<!--					나중에 이미지를 넣거나 슬라이드 형식으로 해 넣으면 됨-->
+				</div>
+			</div>
+		</div>
+		<div class="back" id="back">
+			<div class="back-wrap">
+				<div id="score" class="notice">
+					<h1>점수</h1>
+					<hr>
+<!--					승, 패, 무, 총합은 무의미하며, 대신 맵 크기, 지뢰 갯수 당 승패와 승률을 매기는 것이 더 나을 것-->
+					<p id="score_winlose">승: , 패: , 무: , 총합: </p>
+					<hr>
+					<div class="check">
+						<button class="next" onclick="nextShow();">다음</button>
+					</div>
+				</div>
+				<div id="lose" class="notice">
+					<h1>당신은 지뢰찾기를 하던 중 단 한번의 실수를 범했습니다.<br> 다음 생에 봅시다.</h1>
+					<p>일부 브라우저는 이 버튼이 작동되지 않을 수도 있습니다.</p>
+					<div class="check">
+						<button class="confirm" onclick="resetGame();">환생하기</button>
+						<button class="cancel">
+							<a onclick="javascript:self.close();">그만하기</a>
+						</button>
+					</div>
+				</div>
+				<div id="win" class="notice">
+					<h1>당신은 지뢰찾기 임무를 완수하였습니다.<br> 당신은 영웅이 되셨습니다!</h1>
+					<p>일부 브라우저는 이 버튼이 작동되지 않을 수도 있습니다.</p>
+					<div class="check">
+						<button class="confirm" onclick="resetGame();">추가 임무 완수하기</button>
+						<button class="cancel" onclick="javascript:window.close();">
+							<a onclick="javascript:self.close();">은퇴하기</a>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
